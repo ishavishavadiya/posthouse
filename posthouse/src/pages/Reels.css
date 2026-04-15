@@ -1,167 +1,409 @@
-/* ===== GLOBAL DEPTH BACKGROUND ===== */
-body {
-  background: radial-gradient(circle at 20% 20%, #111 0%, #0a0a0a 40%, #050505 100%);
+/* ============================================================
+   REELS.CSS — Posthouse · Premium Cinematic Dark Edition
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+:root {
+  --c-bg:          #07080a;
+  --c-surface:     #0e0f11;
+  --c-surface2:    #141518;
+  --c-border:      rgba(255, 255, 255, 0.07);
+  --c-border-h:    rgba(200, 169, 110, 0.30);
+  --c-text:        #ebebeb;
+  --c-muted:       #6e6e72;
+  --c-accent:      #c8a96e;
+  --c-accent-dim:  rgba(200, 169, 110, 0.10);
+  --c-accent-glow: rgba(200, 169, 110, 0.22);
+  --font-display:  'Bebas Neue', sans-serif;
+  --font-head:     'Syne', sans-serif;
+  --font-body:     'DM Sans', sans-serif;
+  --radius:        14px;
+  --radius-lg:     20px;
+  --px:            clamp(24px, 7vw, 100px);
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* subtle grain */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ============================================================
+   BODY
+   ============================================================ */
+body {
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-body);
+}
+
 body::after {
   content: "";
   position: fixed;
   inset: 0;
-  background: url("/noise.png");
-  opacity: 0.03;
+  background-image: url("https://www.transparenttextures.com/patterns/noise.png");
+  opacity: 0.032;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.reels-hero {
+  position: relative;
+  padding: clamp(130px, 16vw, 200px) var(--px) clamp(60px, 8vw, 100px);
+  min-height: 52vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--c-bg);
+}
+
+.reels-hero::before {
+  content: "";
+  position: absolute;
+  top: 15%;
+  left: 40%;
+  width: 800px;
+  height: 500px;
+  background: radial-gradient(ellipse at center, rgba(200, 169, 110, 0.055), transparent 65%);
   pointer-events: none;
 }
 
-/* ===== HERO ===== */
-.reels-hero {
-  padding: clamp(140px, 16vw, 200px) 20px 120px;
-  text-align: center;
-  color: #fff;
-
-  background: radial-gradient(circle at top, #1a1a1a 0%, #0c0c0c 60%, #050505 100%);
+.reels-hero::after {
+  content: "— OUR WORK";
+  position: absolute;
+  top: clamp(100px, 12vw, 150px);
+  left: var(--px);
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--c-accent);
 }
 
 .reels-hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(48px, 7vw, 90px);
-  font-weight: 500;
-  letter-spacing: -1px;
-
-  /* glow effect */
-  text-shadow: 0 0 40px rgba(255,255,255,0.08);
+  font-family: var(--font-display);
+  font-size: clamp(72px, 13vw, 160px);
+  line-height: 0.87;
+  letter-spacing: 3px;
+  color: #fff;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
 }
+
+.reels-hero h1 span { color: var(--c-accent); }
 
 .reels-hero p {
-  margin-top: 14px;
-  font-family: 'Inter', sans-serif;
-  color: #b8b8b8;
-  font-size: 15px;
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  font-size: clamp(13px, 1.4vw, 16px);
+  color: var(--c-muted);
+  line-height: 1.85;
+  font-weight: 300;
 }
 
-/* ===== CONTAINER ===== */
+/* ============================================================
+   REELS GRID — cards visible 2-per-row on desktop
+   ============================================================ */
 .reels-container {
-  padding: clamp(80px, 12vw, 160px) clamp(20px, 6vw, 100px);
-  background: linear-gradient(to bottom, #050505, #0a0a0a 40%, #050505);
+  padding: clamp(60px, 8vw, 120px) var(--px) clamp(80px, 12vw, 160px);
+  background: var(--c-bg);
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- section label above grid ---- */
+.reels-section-label {
   display: flex;
-  flex-direction: column;
-  gap: clamp(100px, 12vw, 160px);
-}
-
-/* ===== SECTION ===== */
-.reel-section {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
   align-items: center;
-  gap: clamp(50px, 6vw, 100px);
-  position: relative;
+  gap: 16px;
+  margin-bottom: clamp(36px, 5vw, 60px);
 }
 
-/* alternating */
-.reel-section:nth-child(even) {
-  grid-template-columns: 1fr 1.2fr;
-}
-.reel-section:nth-child(even) .reel-image {
-  order: 2;
+.reels-section-label span {
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--c-accent);
 }
 
-/* ===== IMAGE ===== */
-.reel-image {
+.reels-section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(200, 169, 110, 0.25), transparent);
+}
+
+/* ---- the grid itself ---- */
+.reels-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(16px, 2.5vw, 28px);
+}
+
+/* ============================================================
+   REEL CARD — portrait frame
+   ============================================================ */
+.reel-card {
   position: relative;
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  border: 1px solid var(--c-border);
+  background: var(--c-surface);
+  cursor: pointer;
 
-  /* deeper shadow */
-  box-shadow: 0 40px 120px rgba(0,0,0,0.9);
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.4),
+    0 16px 48px rgba(0,0,0,0.55);
+
+  transition:
+    border-color 0.4s ease,
+    box-shadow  0.45s ease,
+    transform   0.55s var(--ease-out);
 }
 
-.reel-image img {
+.reel-card:hover {
+  border-color: var(--c-border-h);
+  transform: translateY(-10px);
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.5),
+    0 32px 80px rgba(0,0,0,0.70),
+    0 0 0 1px rgba(200, 169, 110, 0.08),
+    0 0 80px -30px rgba(200, 169, 110, 0.20);
+}
+
+/* gold top shimmer on hover */
+.reel-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 5%, var(--c-accent) 45%, var(--c-accent) 55%, transparent 95%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease-out);
+  z-index: 4;
+}
+.reel-card:hover::before { transform: scaleX(1); }
+
+/* ---- image wrapper ---- */
+.reel-card-img {
+  position: relative;
   width: 100%;
-  height: 540px;
+  /* 9:16 portrait ratio — cinematic reel feel */
+  aspect-ratio: 9 / 14;
+  overflow: hidden;
+}
+
+.reel-card-img img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-
-  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1),
-              filter 1s ease;
-
-  filter: brightness(0.85) contrast(1.08);
+  display: block;
+  filter: brightness(0.78) contrast(1.08) saturate(0.88);
+  transition:
+    transform 2s cubic-bezier(0.22, 1, 0.36, 1),
+    filter    1.2s ease;
+}
+.reel-card:hover .reel-card-img img {
+  transform: scale(1.07);
+  filter: brightness(0.90) contrast(1.10) saturate(1.0);
 }
 
-/* hover luxury zoom */
-.reel-image:hover img {
-  transform: scale(1.08);
-  filter: brightness(1) contrast(1.15);
-}
-
-/* cinematic overlay */
-.reel-image::after {
+/* cinematic vignette */
+.reel-card-img::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.35),
-    rgba(0,0,0,0.08),
-    transparent
-  );
+  background:
+    linear-gradient(180deg,
+      rgba(7,8,10,0.22) 0%,
+      transparent       28%,
+      transparent       52%,
+      rgba(7,8,10,0.75) 100%),
+    radial-gradient(ellipse at center, transparent 50%, rgba(7,8,10,0.28) 100%);
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* ===== CONTENT ===== */
-.reel-content {
-  max-width: 500px;
-  color: #fff;
+/* corner marks — appear on hover */
+.reel-corner {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.reel-card:hover .reel-corner { opacity: 1; }
+
+.reel-corner--tl { top: 11px; left: 11px;
+  border-top: 1px solid var(--c-accent); border-left: 1px solid var(--c-accent); }
+.reel-corner--tr { top: 11px; right: 11px;
+  border-top: 1px solid var(--c-accent); border-right: 1px solid var(--c-accent); }
+.reel-corner--bl { bottom: 11px; left: 11px;
+  border-bottom: 1px solid var(--c-accent); border-left: 1px solid var(--c-accent); }
+.reel-corner--br { bottom: 11px; right: 11px;
+  border-bottom: 1px solid var(--c-accent); border-right: 1px solid var(--c-accent); }
+
+/* sequence badge top-right */
+.reel-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  font-family: var(--font-head);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--c-accent);
+  background: rgba(7, 8, 10, 0.60);
+  border: 1px solid rgba(200, 169, 110, 0.20);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 4px 9px;
+  border-radius: 100px;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.reel-card:hover .reel-badge {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.reel-content h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(34px, 3vw, 56px);
-  font-weight: 500;
-  margin-bottom: 18px;
-
-  text-shadow: 0 0 30px rgba(255,255,255,0.05);
+/* ---- text info below the image ---- */
+.reel-card-info {
+  padding: clamp(16px, 2vw, 22px) clamp(18px, 2.2vw, 26px) clamp(18px, 2.4vw, 28px);
+  position: relative;
 }
 
-/* premium line */
-.reel-content::before {
+/* gold rule */
+.reel-card-info::before {
   content: "";
   display: block;
-  width: 60px;
-  height: 2px;
-  margin-bottom: 24px;
-
-  background: linear-gradient(to right, #d6b36a, transparent);
+  width: 32px;
+  height: 1px;
+  background: var(--c-accent);
+  opacity: 0.5;
+  margin-bottom: 14px;
+  transition: width 0.4s var(--ease-out), opacity 0.4s ease;
+}
+.reel-card:hover .reel-card-info::before {
+  width: 52px;
+  opacity: 1;
 }
 
-/* description */
-.reel-content p {
-  font-family: 'Inter', sans-serif;
-  font-size: 15px;
-  line-height: 1.9;
-  color: #cfcfcf;
+.reel-card-label {
+  font-family: var(--font-head);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: 8px;
+  opacity: 0.75;
 }
 
-/* ===== LIGHT GLOW BACKGROUND ===== */
-.reel-section::after {
-  content: "";
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(255,255,255,0.05), transparent 70%);
-  filter: blur(100px);
-  z-index: -1;
+.reel-card-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3vw, 38px);
+  letter-spacing: 1.5px;
+  line-height: 0.95;
+  color: #fff;
+  margin-bottom: 10px;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .reel-section {
+.reel-card-desc {
+  font-size: clamp(12px, 1.1vw, 13px);
+  line-height: 1.85;
+  color: var(--c-muted);
+  font-weight: 300;
+}
+
+/* ============================================================
+   FEATURED ROW — optional wider card (span full width)
+   ============================================================ */
+.reel-card--featured {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+}
+
+.reel-card--featured .reel-card-img {
+  aspect-ratio: unset;
+  height: clamp(300px, 36vw, 480px);
+}
+
+.reel-card--featured .reel-card-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(28px, 4vw, 56px);
+}
+
+.reel-card--featured .reel-card-title {
+  font-size: clamp(40px, 5vw, 72px);
+  margin-bottom: 16px;
+}
+
+.reel-card--featured .reel-card-desc {
+  font-size: clamp(13px, 1.3vw, 15px);
+  max-width: 440px;
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET ≤ 860px
+   ============================================================ */
+@media (max-width: 860px) {
+  .reels-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .reel-card--featured {
+    grid-column: 1 / -1;
     grid-template-columns: 1fr;
-    gap: 40px;
   }
 
-  .reel-section:nth-child(even) .reel-image {
-    order: 0;
+  .reel-card--featured .reel-card-img {
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE ≤ 560px
+   ============================================================ */
+@media (max-width: 560px) {
+  :root { --px: 18px; }
+
+  .reels-hero {
+    padding: 110px 18px 56px;
+    min-height: auto;
   }
 
-  .reel-image img {
-    height: 360px;
+  .reels-container {
+    padding: 48px 18px 80px;
+  }
+
+  .reels-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .reel-card--featured {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr;
+  }
+
+  .reel-card-title {
+    font-size: 24px;
   }
 }

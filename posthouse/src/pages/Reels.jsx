@@ -14,19 +14,28 @@ gsap.registerPlugin(ScrollTrigger)
 
 const reels = [
     {
+        index: "01",
+        label: "Jewelry",
         title: "Jewelry Reel",
         desc: "Highlighting craftsmanship, sparkle & premium aesthetics with cinematic close-ups.",
-        img: reel1
+        img: reel1,
+        featured: false
     },
     {
+        index: "02",
+        label: "Fashion",
         title: "Fashion Reel",
         desc: "Luxury fashion storytelling with smooth transitions & bold presence.",
-        img: reel2
+        img: reel2,
+        featured: false
     },
     {
+        index: "03",
+        label: "Brand",
         title: "Brand Reel",
         desc: "Elevating brand identity through cinematic visuals and emotional storytelling.",
-        img: reel3
+        img: reel3,
+        featured: true
     }
 ]
 
@@ -35,26 +44,26 @@ function Reels() {
     useEffect(() => {
         const ctx = gsap.context(() => {
 
-            gsap.utils.toArray(".reel-section").forEach((section) => {
-                gsap.fromTo(section,
-                    { opacity: 0, y: 120 },
+            gsap.utils.toArray(".reel-card").forEach((card, i) => {
+                gsap.fromTo(card,
+                    { opacity: 0, y: 60 },
                     {
                         opacity: 1,
                         y: 0,
-                        duration: 1.4,
+                        duration: 1.2,
+                        delay: i * 0.08,
                         ease: "power4.out",
                         scrollTrigger: {
-                            trigger: section,
-                            start: "top 85%",
+                            trigger: card,
+                            start: "top 88%",
                         }
                     }
                 )
             })
 
-            // subtle parallax for images (cinematic feel)
-            gsap.utils.toArray(".reel-image img").forEach((img) => {
+            gsap.utils.toArray(".reel-card-img img").forEach((img) => {
                 gsap.to(img, {
-                    y: -40,
+                    y: -30,
                     scrollTrigger: {
                         trigger: img,
                         scrub: true
@@ -71,44 +80,61 @@ function Reels() {
         <>
             <Navbar />
 
+            {/* ── HERO ── */}
             <section className="reels-hero">
                 <motion.h1
-                    initial={{ opacity: 0, y: 40 }}
+                    initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1 }}
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                 >
-                    Reels Production
+                    Reels <span>Production</span>
                 </motion.h1>
 
                 <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.35, duration: 0.9 }}
                 >
                     Cinematic storytelling crafted for modern brands
                 </motion.p>
             </section>
 
+            {/* ── GRID ── */}
             <div className="reels-container">
-                {reels.map((item, index) => (
-                    <section className="reel-section" key={index}>
 
-                        <motion.div
-                            className="reel-image"
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 1 }}
+                <div className="reels-section-label">
+                    <span>Selected Work</span>
+                </div>
+
+                <div className="reels-grid">
+                    {reels.map((item, index) => (
+                        <div
+                            className={`reel-card${item.featured ? " reel-card--featured" : ""}`}
+                            key={index}
                         >
-                            <img src={item.img} alt={item.title} />
-                        </motion.div>
+                            {/* image */}
+                            <div className="reel-card-img">
+                                <img src={item.img} alt={item.title} />
 
-                        <div className="reel-content">
-                            <h2>{item.title}</h2>
-                            <p>{item.desc}</p>
+                                {/* corner marks */}
+                                <div className="reel-corner reel-corner--tl" />
+                                <div className="reel-corner reel-corner--tr" />
+                                <div className="reel-corner reel-corner--bl" />
+                                <div className="reel-corner reel-corner--br" />
+
+                                {/* sequence badge */}
+                                <span className="reel-badge">{item.index}</span>
+                            </div>
+
+                            {/* text */}
+                            <div className="reel-card-info">
+                                <span className="reel-card-label">{item.label}</span>
+                                <h2 className="reel-card-title">{item.title}</h2>
+                                <p className="reel-card-desc">{item.desc}</p>
+                            </div>
                         </div>
-
-                    </section>
-                ))}
+                    ))}
+                </div>
             </div>
 
             <Footer />
