@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import gsap from "gsap"
 import "./Hero.css"
+import heroVideo from "../assets/hero.mp4"
 
 function Hero() {
   const titleRef = useRef(null)
@@ -27,7 +28,7 @@ function Hero() {
 
       {/* Background Video */}
       <video autoPlay muted loop playsInline className="hero-video">
-        <source src="/src/assets/hero.mp4" type="video/mp4" />
+        <source src={heroVideo} type="video/mp4" />
       </video>
 
       {/* Gradient Overlay */}
